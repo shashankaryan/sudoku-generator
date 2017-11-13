@@ -11,7 +11,7 @@ Major Rules we are focusing:
 Approach is completely based on the Rules:
 
 We are taking n arrays for each, row, col and submatrix(box). So if we are working with 4*4 sudoku we will be having 4 arrays each for rows, columns and boxes. eaching having numbers upto n starting from 1
-
+<pre>
 Ex.
    r1 => [1, 2, 3, 4]
    c1 => [1, 2, 3, 4]
@@ -25,7 +25,7 @@ Ex.
    r4 => [1, 2, 3, 4]
    c4 => [1, 2, 3, 4]
    b4 => [1, 2, 3, 4]
-
+</pre>
 For filling every cell, we are taking a number randomly from row arrays(r1,r2,r3,r4), and putting into that particular cell,
 
 For example,
