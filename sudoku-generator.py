@@ -1,6 +1,8 @@
 import numpy as np
 import math
 import random
+from colorama import init, Fore, Back, Style
+
 
 class SudokuGenerator(object) :
     """ Generate unique sudoku solutions everytime for n*n grids. """
@@ -101,4 +103,17 @@ if __name__ == "__main__":
 
     instance = SudokuGenerator(grid_number)
     solution = instance.sudoku_gen()
-    print (solution)
+    # print (solution)
+
+    init()
+ 
+    def cprint(msg, foreground = "black", background = "white"):
+        fground = foreground.upper()
+        bground = background.upper()
+        style = getattr(Fore, fground) + getattr(Back, bground)
+        print(style + " " + msg + " " + Style.RESET_ALL, end="", flush=True)
+    
+    for i in range(len(solution)):
+        for j in range(len(solution)):
+            cprint(str(solution[i][j]), "black", "green")
+        print('')
