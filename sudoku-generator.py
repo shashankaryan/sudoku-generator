@@ -2,16 +2,20 @@ import numpy as np
 import math
 import random
 
-class SudokuGenerator:
+class SudokuGenerator(object) :
     """ Generate unique sudoku solutions everytime for n*n grids. """
 
-    def generate_grid(self, num):
+    def __init__(self, num):
+
+        self.num = num
+
+    def generate_grid(self):
         """ Generate a grid of n*n numbers. """
 
-        grid = np.zeros((num,num), dtype=np.int)
+        grid = np.zeros((self.num,self.num), dtype=np.int)
         return grid
 
-    def generate_check_lists(self, num):
+    def generate_check_lists(self):
         """ Returning a dict of n number of lists for row, column and sub-matrix.
         Each list will contain numbers from 1 to n.
 
@@ -21,10 +25,10 @@ class SudokuGenerator:
         """
 
         checker= {}
-        for i in range(1,num+1):
-            checker['row'+str(i)]=list(range(1,num+1))
-            checker['col'+str(i)]=list(range(1,num+1))
-            checker['box'+str(i)]=list(range(1,num+1))
+        for i in range(1,self.num+1):
+            checker['row'+str(i)]=list(range(1,self.num+1))
+            checker['col'+str(i)]=list(range(1,self.num+1))
+            checker['box'+str(i)]=list(range(1,self.num+1))
         return checker
 
     def get_submatrix_num(self, row_n, col_n, root_n):
@@ -41,7 +45,7 @@ class SudokuGenerator:
         box_n = col_t + (row_t-1)*root_n  # formula for calculating which submatrix box, a (row,column) belongs
         return box_n
 
-    def sudoku_gen(self, num):
+    def sudoku_gen(self):
         """ Pushing number for each cell of the generated grid, following sudoku rules.
         Each number is picked randomly from the list of elements obtained by the
         intersection of checker lists for that particular row, col and submatrix
@@ -50,16 +54,16 @@ class SudokuGenerator:
         count = 0
         while True:
 
-            m = self.generate_check_lists(num)
-            sudoku = self.generate_grid(num)
+            m = self.generate_check_lists()
+            sudoku = self.generate_grid()
             count+=1 #to get number of attempts tried to get the solution.
 
             try:
 
-                for row_n in range(1, num+1):
-                    for col_n in range(1, num+1):
+                for row_n in range(1, self.num+1):
+                    for col_n in range(1, self.num+1):
 
-                        box_n = self.get_submatrix_num(row_n, col_n, int(math.sqrt(num)))
+                        box_n = self.get_submatrix_num(row_n, col_n, int(math.sqrt(self.num)))
                         row = 'row' + str(row_n)
                         col = 'col' + str(col_n)
                         box = 'box' + str(box_n)
@@ -74,7 +78,7 @@ class SudokuGenerator:
                         m[col].remove(rand_num)
                         m[box].remove(rand_num)
 
-                if sudoku[num-1][num-1]>0: # checking if solution is ready, then break out.
+                if sudoku[self.num-1][self.num-1]>0: # checking if solution is ready, then break out.
                     print('Total Number of attempts: ' + str(count))
                     break
 
@@ -84,6 +88,17 @@ class SudokuGenerator:
         return sudoku
 
 if __name__ == "__main__":
-    x = SudokuGenerator()
-    y = x.sudoku_gen(9)
-    print (y)
+
+    import sys
+    import argparse
+
+    parser = argparse.ArgumentParser(description='It takes number as optional argument.')
+    parser.add_argument('-n', dest='gridnum', required=True, help='Grid number for generating sudoku')
+
+    args = parser.parse_args()
+
+    grid_number = int(args.gridnum)
+
+    instance = SudokuGenerator(grid_number)
+    solution = instance.sudoku_gen()
+    print (solution)
