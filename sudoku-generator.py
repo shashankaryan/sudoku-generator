@@ -103,16 +103,17 @@ if __name__ == "__main__":
 
     instance = SudokuGenerator(grid_number)
     solution = instance.sudoku_gen()
-    # print (solution)
 
-    init()
- 
+    init() #initialising the colorama
+    
     def cprint(msg, foreground = "black", background = "white"):
+        """This function is used to provide color to the sudoku cells."""
         fground = foreground.upper()
         bground = background.upper()
         style = getattr(Fore, fground) + getattr(Back, bground)
         print(style + " " + msg + " " + Style.RESET_ALL, end="", flush=True)
     
+    # Printing the sudoku.
     for i in range(len(solution)):
         for j in range(len(solution)):
             cprint(str(solution[i][j]), "black", "green")
